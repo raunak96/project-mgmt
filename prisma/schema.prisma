@@ -74,6 +74,6 @@ model Project {
     name        String
     description String
     status      Status @default(NotStarted)
-    client      User   @relation(fields: [clientId], references: [id])
+    client      User   @relation(fields: [clientId], references: [id], onDelete: Cascade)
     clientId    String @db.ObjectId
 }
