@@ -1,48 +1,46 @@
 import { type NextPage } from "next";
-import { signIn, signOut, useSession } from "next-auth/react";
-import { trpc } from "@/utils/trpc";
+import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
+import Header from "@/components/Header";
+import Loader from "@/components/Loader";
+import ProjectsList from "@/components/ProjectsList";
+import Image from "next/image";
 
 const Home: NextPage = () => {
-  const { status } = useSession();
+  const { status, data } = useSession();
   const router = useRouter();
   if (status === "unauthenticated") router.replace("api/auth/signin");
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c]">
-      <div className="container flex flex-col items-center justify-center gap-12 px-4 py-16 ">
-        <h1 className="text-5xl font-extrabold tracking-tight text-white sm:text-[5rem]">
-          Create <span className="text-[hsl(280,100%,70%)]">T3</span> App
-        </h1>
-        <div className="flex flex-col items-center gap-2">
-          <AuthShowcase />
+    <>
+      <Header isLoggedIn={status === "authenticated"} />
+      <main className="flex min-h-screen flex-col items-center bg-gradient-to-b from-[#2e026d] to-[#15162c]">
+        <div className="container mt-7 flex flex-col items-center justify-center gap-12  px-4 py-16 md:mt-12 ">
+          {status === "loading" ? (
+            <Loader message="Loading Session..." />
+          ) : (
+            <>
+              <div className="flex space-x-2">
+                {data?.user?.image && (
+                  <Image
+                    src={data.user.image}
+                    alt="User Image"
+                    height={50}
+                    width={50}
+                    className="rounded-full"
+                  />
+                )}
+                <h1 className="text-xl font-extrabold tracking-tight text-white sm:text-4xl">
+                  <span className="capitalize">{data?.user?.name}</span>&apos;s{" "}
+                  <span className="text-[hsl(280,100%,70%)]">Proj</span>ects
+                </h1>
+              </div>
+              <ProjectsList />
+            </>
+          )}
         </div>
-      </div>
-    </main>
+      </main>
+    </>
   );
 };
 
 export default Home;
-
-const AuthShowcase: React.FC = () => {
-  const { data: sessionData } = useSession();
-
-  const { data: secretMessage } = trpc.auth.getSecretMessage.useQuery(
-    undefined, // no input
-    { enabled: sessionData?.user !== undefined }
-  );
-
-  return (
-    <div className="flex flex-col items-center justify-center gap-4">
-      <p className="text-center text-2xl text-white">
-        {sessionData && <span>Logged in as {sessionData.user?.name}</span>}
-        {secretMessage && <span> - {secretMessage}</span>}
-      </p>
-      <button
-        className="rounded-full bg-white/10 px-10 py-3 font-semibold text-white no-underline transition hover:bg-white/20"
-        onClick={sessionData ? () => signOut() : () => signIn()}
-      >
-        {sessionData ? "Sign out" : "Sign in"}
-      </button>
-    </div>
-  );
-};

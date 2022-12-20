@@ -64,9 +64,9 @@ model VerificationToken {
 // Next Auth Schema Finished
 
 enum Status {
-    NotStarted @map("Not Started")
-    InProgress @map("In Progress")
-    Completed  @map("Completed")
+    NotStarted
+    InProgress
+    Completed
 }
 
 model Project {
