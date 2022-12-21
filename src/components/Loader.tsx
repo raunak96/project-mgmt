@@ -7,7 +7,7 @@ type Props = {
 
 const Loader: FC<Props> = ({ message = "Loading..." }) => {
   return (
-    <div className="flex flex-col space-y-3">
+    <div className="flex flex-col items-center justify-between space-y-3">
       <Image
         src="/rings.svg"
         width={200}
@@ -15,7 +15,7 @@ const Loader: FC<Props> = ({ message = "Loading..." }) => {
         alt="Loading User Details..."
         className="flex-1"
       />
-      <p className="text-xl text-white">{message}</p>
+      <p className="text-center text-xl text-white">{message}</p>
     </div>
   );
 };

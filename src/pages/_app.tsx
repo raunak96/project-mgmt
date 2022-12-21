@@ -6,6 +6,7 @@ import { trpc } from "../utils/trpc";
 
 import "../styles/globals.css";
 import Head from "next/head";
+import Header from "@/components/Header";
 
 const MyApp: AppType<{ session: Session | null }> = ({
   Component,
@@ -22,7 +23,12 @@ const MyApp: AppType<{ session: Session | null }> = ({
         <meta property="og:description" content={description} />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Component {...pageProps} />
+      <Header />
+      <main className="flex min-h-screen flex-col items-center bg-gradient-to-b from-[#2e026d] to-[#15162c]">
+        <div className="container mt-7 flex flex-col items-center justify-center gap-12  px-4 py-16 md:mt-12 ">
+          <Component {...pageProps} />
+        </div>
+      </main>
     </SessionProvider>
   );
 };
