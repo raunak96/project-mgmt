@@ -7,7 +7,11 @@ import Loader from "./Loader";
 const Project = () => {
   const router = useRouter();
   const id = router.query.id as string;
-  const { isLoading, data: project } = trpc.project.getProject.useQuery(
+  const {
+    isLoading,
+    data: project,
+    error,
+  } = trpc.project.getProject.useQuery(
     { id },
     {
       enabled: id !== undefined,
@@ -17,7 +21,7 @@ const Project = () => {
     }
   );
   if (isLoading) return <Loader message="Loading Project Details..." />;
-  if (!project) router.replace("/");
+  if (!project || error) router.replace("/");
   return (
     <>
       <Head>

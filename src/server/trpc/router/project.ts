@@ -1,3 +1,4 @@
+import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 import { router, protectedProcedure } from "../trpc";
 
@@ -21,8 +22,14 @@ export const projectRouter = router({
       const project = await ctx.prisma.project.findFirst({
         where: {
           id: input.id,
+          clientId: ctx.session.user.id,
         },
       });
+      if (!project)
+        throw new TRPCError({
+          code: "FORBIDDEN",
+          message: "You don't have access to this resource",
+        });
       return project;
     }),
 });
