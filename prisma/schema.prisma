@@ -70,10 +70,12 @@ enum Status {
 }
 
 model Project {
-    id          String @id @default(auto()) @map("_id") @db.ObjectId
+    id          String   @id @default(auto()) @map("_id") @db.ObjectId
     name        String
     description String
-    status      Status @default(NotStarted)
-    client      User   @relation(fields: [clientId], references: [id], onDelete: Cascade)
-    clientId    String @db.ObjectId
+    status      Status   @default(NotStarted)
+    client      User     @relation(fields: [clientId], references: [id], onDelete: Cascade)
+    clientId    String   @db.ObjectId
+    created_at  DateTime @default(now())
+    updated_at  DateTime @updatedAt
 }

@@ -4,5 +4,6 @@ This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3
 
 Todo
 - [x] Seed Project with Dummy Data
-- [ ] Query all Projects of a user
+- [x] Query all Projects of a user
+- [x] Single Project Page 
 - [ ] Create new Project
