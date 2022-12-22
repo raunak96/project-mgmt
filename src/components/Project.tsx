@@ -30,7 +30,7 @@ const Project = () => {
       <h1 className="text-2xl font-extrabold tracking-tight text-white sm:text-4xl">
         <span className="capitalize tracking-[0.2em]">{project?.name}</span>
       </h1>
-      <div className="flex w-5/6 cursor-pointer flex-col space-y-4 rounded bg-purple-500 p-6 text-white opacity-70 shadow-md transition duration-150 ease-in hover:opacity-100 hover:shadow-lg sm:w-[450px] md:w-[600px]">
+      <div className="flex w-5/6 cursor-pointer flex-col space-y-4 rounded bg-purple-500 p-6 text-white opacity-90 shadow-md transition duration-150 ease-in hover:opacity-100 hover:shadow-lg sm:w-[450px] md:w-[600px]">
         <div className="flex items-center justify-start space-x-2 text-sm text-gray-100 sm:justify-between sm:text-base">
           <h3 className="hidden sm:block">
             Created on:{" "}

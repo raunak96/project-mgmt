@@ -10,15 +10,14 @@ const ProjectsList = () => {
     }
   );
   if (isLoading) <Loader message="Loading Projects..." />;
+  if (!projects) return null;
   return (
     <div
-      className={`grid grid-cols-1 gap-7 sm:grid-cols-${
-        projects && projects.length < 2 ? projects.length : "2"
+      className={`grid flex-1 grid-cols-1 gap-7 sm:grid-cols-${
+        projects.length < 2 ? projects.length : "2"
       } lg:grid-cols-${
-        projects && projects.length < 3 ? projects.length : "3"
-      } xl:grid-cols-${
-        projects && projects.length < 4 ? projects.length : "4"
-      }`}
+        projects.length < 3 ? projects.length : "3"
+      } xl:grid-cols-${projects.length < 4 ? projects.length : "4"}`}
     >
       {projects?.map((project) => (
         <ProjectCard key={project.id} project={project} />

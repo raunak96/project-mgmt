@@ -7,7 +7,7 @@ import { AiOutlineLogout } from "react-icons/ai";
 const Header: FC = () => {
   const { status } = useSession();
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 flex justify-between bg-slate-100 p-4">
+    <header className="fixed top-0 left-0 right-0 z-30 flex justify-between bg-slate-100 p-4">
       <Link href="/" className="flex items-center space-x-1">
         <Image height={30} width={30} src="/favicon.ico" alt="logo" />
         <span className="text-xl sm:text-2xl">Project MgMt</span>

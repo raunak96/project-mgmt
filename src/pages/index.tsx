@@ -5,11 +5,17 @@ import Loader from "@/components/Loader";
 import ProjectsList from "@/components/ProjectsList";
 import Image from "next/image";
 import Head from "next/head";
+import AddProjectModal from "@/components/AddProjectModal";
+import { useState } from "react";
+import { IoMdAdd } from "react-icons/io";
 
 const Home: NextPage = () => {
   const { status, data } = useSession();
   const router = useRouter();
   if (status === "unauthenticated") router.replace("api/auth/signin");
+
+  const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
+
   return (
     <>
       {status === "loading" ? (
@@ -19,7 +25,8 @@ const Home: NextPage = () => {
           <Head>
             <title>{data?.user?.name}&apos;s Projects</title>
           </Head>
-          <div className="flex space-x-2">
+
+          <div className="flex w-full items-center justify-center space-x-2">
             {data?.user?.image && (
               <Image
                 src={data.user.image}
@@ -34,7 +41,23 @@ const Home: NextPage = () => {
               <span className="text-[hsl(280,100%,70%)]">Proj</span>ects
             </h1>
           </div>
+
           <ProjectsList />
+          {isOpenModal && (
+            <AddProjectModal closeModal={() => setIsOpenModal(false)} />
+          )}
+          <button
+            className="fixed bottom-12 right-12 z-30 inline rounded-full bg-purple-600 p-4 shadow hover:bg-purple-700 hover:shadow-md sm:right-20"
+            title="Add Project"
+            onClick={() => setIsOpenModal(true)}
+          >
+            <IoMdAdd
+              className="h-10 w-10 fill-white"
+              fill="white"
+              color="white"
+              stroke="white"
+            />
+          </button>
         </>
       )}
     </>
