@@ -13,7 +13,7 @@ import AddProjectForm from "@/components/AddProjectForm";
 const Home: NextPage = () => {
   const { status, data } = useSession();
   const router = useRouter();
-  if (status === "unauthenticated") router.replace("api/auth/signin");
+  if (status === "unauthenticated") router.replace("/auth/signin");
 
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
 

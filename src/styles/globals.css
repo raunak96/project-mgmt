@@ -6,4 +6,10 @@
   .form-input {
     @apply w-full rounded-md px-2 py-3 text-gray-700 outline-none focus:shadow-md;
   }
+  .btn {
+    @apply rounded py-3 px-4 text-xl font-bold disabled:cursor-not-allowed disabled:opacity-50 sm:text-2xl;
+  }
+  .btn-primary {
+    @apply bg-blue-500 text-white hover:bg-blue-700;
+  }
 }

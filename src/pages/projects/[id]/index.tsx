@@ -8,7 +8,7 @@ const ProjectPage: NextPage = () => {
   const { status } = useSession();
   const router = useRouter();
 
-  if (status === "unauthenticated") router.replace("api/auth/signin");
+  if (status === "unauthenticated") router.replace("/auth/signin");
 
   return status === "loading" ? (
     <Loader message="Loading Session..." />
