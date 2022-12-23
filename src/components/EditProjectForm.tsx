@@ -72,7 +72,7 @@ const EditProjectForm: FC<Props> = ({ closeModal, project }) => {
         ref={descRef}
         rows={3}
         defaultValue={project.description}
-        className="form-input"
+        className="form-input scrollbar-thin scrollbar-track-white scrollbar-thumb-purple-500"
       ></textarea>
       <select
         defaultValue={project.status}
@@ -92,7 +92,7 @@ const EditProjectForm: FC<Props> = ({ closeModal, project }) => {
       <button
         type="submit"
         disabled={isLoading}
-        className="mr-auto rounded bg-purple-600 py-2 px-3 text-white shadow hover:bg-purple-700 hover:shadow-md disabled:cursor-not-allowed"
+        className="mr-auto rounded bg-purple-600 py-2 px-3 text-white shadow disabled:cursor-not-allowed hover:bg-purple-700 hover:shadow-md"
       >
         Submit
       </button>
