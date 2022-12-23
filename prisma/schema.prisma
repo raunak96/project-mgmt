@@ -78,4 +78,6 @@ model Project {
     clientId    String   @db.ObjectId
     created_at  DateTime @default(now())
     updated_at  DateTime @updatedAt
+
+    @@unique([id, clientId])
 }

@@ -2,6 +2,7 @@ import { projStatus } from "@/utils/constants";
 import { trpc } from "@/utils/trpc";
 import Head from "next/head";
 import { useRouter } from "next/router";
+import DeleteButton from "./DeleteButton";
 import Loader from "./Loader";
 
 const Project = () => {
@@ -21,7 +22,10 @@ const Project = () => {
     }
   );
   if (isLoading) return <Loader message="Loading Project Details..." />;
-  if (!project || error) router.replace("/");
+  if (!project || error) {
+    router.replace("/");
+    return null;
+  }
   return (
     <>
       <Head>
@@ -53,6 +57,9 @@ const Project = () => {
             {projStatus.get(project?.status as string)}
           </span>
         </h5>
+        <div className="ml-auto flex space-x-3">
+          <DeleteButton projectId={project.id} />
+        </div>
       </div>
     </>
   );

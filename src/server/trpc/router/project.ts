@@ -52,4 +52,12 @@ export const projectRouter = router({
       });
       return project;
     }),
+  deleteProject: protectedProcedure
+    .input(z.object({ id: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      await ctx.prisma.project.delete({
+        where: { id_clientId: { id: input.id, clientId: ctx.session.user.id } },
+      });
+      return { success: true };
+    }),
 });
