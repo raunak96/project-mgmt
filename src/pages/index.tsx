@@ -5,9 +5,10 @@ import Loader from "@/components/Loader";
 import ProjectsList from "@/components/ProjectsList";
 import Image from "next/image";
 import Head from "next/head";
-import AddProjectModal from "@/components/AddProjectModal";
 import { useState } from "react";
 import { IoMdAdd } from "react-icons/io";
+import Modal from "@/components/Modal";
+import AddProjectForm from "@/components/AddProjectForm";
 
 const Home: NextPage = () => {
   const { status, data } = useSession();
@@ -16,6 +17,7 @@ const Home: NextPage = () => {
 
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
 
+  const closeModal = () => setIsOpenModal(false);
   return (
     <>
       {status === "loading" ? (
@@ -44,7 +46,9 @@ const Home: NextPage = () => {
 
           <ProjectsList />
           {isOpenModal && (
-            <AddProjectModal closeModal={() => setIsOpenModal(false)} />
+            <Modal closeModal={closeModal} heading="Add Project">
+              <AddProjectForm closeModal={closeModal} />
+            </Modal>
           )}
           <button
             className="fixed bottom-12 right-12 z-30 inline rounded-full bg-purple-600 p-4 shadow hover:bg-purple-700 hover:shadow-md sm:right-20"
