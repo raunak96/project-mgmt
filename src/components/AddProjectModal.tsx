@@ -1,11 +1,33 @@
+import { type RouterOutputs, trpc } from "@/utils/trpc";
+import { useQueryClient } from "@tanstack/react-query";
 import { type FormEvent, useRef, type FC } from "react";
+
+import Loader from "./Loader";
 type Props = {
   closeModal: () => void;
 };
 const AddProjectModal: FC<Props> = ({ closeModal }) => {
   const nameRef = useRef<HTMLInputElement>(null);
   const descRef = useRef<HTMLTextAreaElement>(null);
-  const btnRef = useRef<HTMLButtonElement>(null);
+
+  /* Project Mutation and Caching */
+  const client = useQueryClient();
+  const { mutate, isLoading } = trpc.project.addProject.useMutation({
+    onSuccess: (data) => {
+      client.setQueryData(
+        [
+          ["project", "getProjects"],
+          {
+            type: "query",
+          },
+        ],
+        (oldData: RouterOutputs["project"]["getProjects"] | undefined) => {
+          return [data, ...(oldData ?? [])];
+        }
+      );
+      closeModal();
+    },
+  });
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -16,10 +38,16 @@ const AddProjectModal: FC<Props> = ({ closeModal }) => {
 
     if (!description || !projectName)
       return alert("Name and/or Project description cannot be empty!");
-    if (btnRef.current) btnRef.current?.setAttribute("disabled", "disabled");
-
-    closeModal();
+    mutate({ name: projectName, description });
   };
+
+  if (isLoading)
+    return (
+      <div className="fixed inset-0 z-40 flex items-center justify-center bg-black/70">
+        <Loader message="Adding Project" />
+      </div>
+    );
+
   return (
     <div
       className="fixed inset-0 z-40 flex items-center justify-center bg-black/70"
@@ -58,7 +86,7 @@ const AddProjectModal: FC<Props> = ({ closeModal }) => {
           ></textarea>
           <button
             type="submit"
-            ref={btnRef}
+            disabled={isLoading}
             className="mr-auto rounded bg-purple-600 py-2 px-3 text-white shadow hover:bg-purple-700 hover:shadow-md disabled:cursor-not-allowed"
           >
             Submit

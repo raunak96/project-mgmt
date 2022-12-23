@@ -8,6 +8,9 @@ export const projectRouter = router({
       where: {
         clientId: ctx.session.user.id,
       },
+      orderBy: {
+        updated_at: "desc",
+      },
     });
     return projects;
   }),
@@ -30,6 +33,23 @@ export const projectRouter = router({
           code: "FORBIDDEN",
           message: "You don't have access to this resource",
         });
+      return project;
+    }),
+  addProject: protectedProcedure
+    .input(z.object({ name: z.string(), description: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      const { name, description } = input;
+      const project = await ctx.prisma.project.create({
+        data: {
+          name,
+          description,
+          client: {
+            connect: {
+              id: ctx.session.user.id,
+            },
+          },
+        },
+      });
       return project;
     }),
 });

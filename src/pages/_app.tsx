@@ -7,6 +7,7 @@ import { trpc } from "../utils/trpc";
 import "../styles/globals.css";
 import Head from "next/head";
 import Header from "@/components/Header";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 const MyApp: AppType<{ session: Session | null }> = ({
   Component,
@@ -29,6 +30,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
           <Component {...pageProps} />
         </div>
       </main>
+      <ReactQueryDevtools initialIsOpen={false} />
     </SessionProvider>
   );
 };
