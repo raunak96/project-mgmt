@@ -2,12 +2,20 @@ import { projStatus } from "@/utils/constants";
 import { trpc } from "@/utils/trpc";
 import Head from "next/head";
 import { useRouter } from "next/router";
+import { useState } from "react";
+import { FaRegEdit } from "react-icons/fa";
 import DeleteButton from "./DeleteButton";
+import EditProjectForm from "./EditProjectForm";
 import Loader from "./Loader";
+import Modal from "./Modal";
 
 const Project = () => {
   const router = useRouter();
   const id = router.query.id as string;
+
+  const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
+  const closeModal = () => setIsOpenModal(false);
+
   const {
     isLoading,
     data: project,
@@ -58,9 +66,21 @@ const Project = () => {
           </span>
         </h5>
         <div className="ml-auto flex space-x-3">
+          <button
+            disabled={isLoading}
+            className="flex items-center space-x-2 rounded bg-amber-600 p-2 text-white shadow-md hover:bg-amber-700 hover:shadow-lg disabled:cursor-not-allowed disabled:opacity-40"
+            onClick={() => setIsOpenModal(true)}
+          >
+            <FaRegEdit /> <span>Edit Project</span>
+          </button>
           <DeleteButton projectId={project.id} />
         </div>
       </div>
+      {isOpenModal && (
+        <Modal closeModal={closeModal} heading="Edit Project Details">
+          <EditProjectForm closeModal={closeModal} project={project} />
+        </Modal>
+      )}
     </>
   );
 };

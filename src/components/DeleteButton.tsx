@@ -18,7 +18,7 @@ const DeleteButton: FC<Props> = ({ projectId }) => {
           ["project", "getProject"],
           {
             input: {
-              id: "63a5bfc4f6f8c27e78c144c8",
+              id: projectId,
             },
             type: "query",
           },

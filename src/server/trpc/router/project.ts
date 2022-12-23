@@ -1,7 +1,10 @@
+import { Status } from "@prisma/client";
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 import { router, protectedProcedure } from "../trpc";
 
+const StatusEnum = z.nativeEnum(Status);
+type StatusEnum = z.infer<typeof StatusEnum>;
 export const projectRouter = router({
   getProjects: protectedProcedure.query(async ({ ctx }) => {
     const projects = await ctx.prisma.project.findMany({
@@ -59,5 +62,28 @@ export const projectRouter = router({
         where: { id_clientId: { id: input.id, clientId: ctx.session.user.id } },
       });
       return { success: true };
+    }),
+  updateProject: protectedProcedure
+    .input(
+      z.object({
+        id: z.string(),
+        name: z.string(),
+        description: z.string(),
+        status: StatusEnum,
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      const { name, description, status } = input;
+      const project = await ctx.prisma.project.update({
+        where: {
+          id_clientId: { id: input.id, clientId: ctx.session.user.id },
+        },
+        data: {
+          name,
+          description,
+          status,
+        },
+      });
+      return project;
     }),
 });
