@@ -15,11 +15,8 @@ const DeleteButton: FC<Props> = ({ projectId }) => {
     onSuccess: () => {
       client.setQueryData(
         [
-          ["project", "getProject"],
+          ["project", "getProjects"],
           {
-            input: {
-              id: projectId,
-            },
             type: "query",
           },
         ],
@@ -35,7 +32,7 @@ const DeleteButton: FC<Props> = ({ projectId }) => {
   return (
     <button
       disabled={isLoading}
-      className="flex items-center space-x-2 rounded bg-red-700 p-2 text-white shadow-md hover:bg-red-800 hover:shadow-lg disabled:cursor-not-allowed disabled:opacity-40"
+      className="flex items-center space-x-2 rounded bg-red-700 p-2 text-white shadow-md disabled:cursor-not-allowed disabled:opacity-40 hover:bg-red-800 hover:shadow-lg"
       onClick={() => mutate({ id: projectId })}
     >
       <FaTrash /> <span>Delete Project</span>
