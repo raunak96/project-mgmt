@@ -13,9 +13,11 @@ import AddProjectForm from "@/components/AddProjectForm";
 const Home: NextPage = () => {
   const { status, data } = useSession();
   const router = useRouter();
-  if (status === "unauthenticated") router.replace("/auth/signin");
-
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
+  if (status === "unauthenticated") {
+    router.replace("/auth/signin");
+    return null;
+  }
 
   const closeModal = () => setIsOpenModal(false);
   return (
@@ -25,7 +27,9 @@ const Home: NextPage = () => {
       ) : (
         <>
           <Head>
-            <title>{data?.user?.name}&apos;s Projects</title>
+            <title>
+              {data?.user?.name ? `${data.user.name}&apos;s ` : ""}Projects
+            </title>
           </Head>
 
           <div className="flex w-full items-center justify-center space-x-2">
